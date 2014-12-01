@@ -1,12 +1,27 @@
 <?xml version="1.0"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>eu.ibacz.edu</groupId>
 	<artifactId>portlet-example</artifactId>
-	<packaging>war</packaging>
-	<name>portlet-example Portlet</name>
 	<version>1.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>portlet-example Portlet</name>
+
+	<properties>
+		<liferay.version>6.2.1</liferay.version>
+		<liferay.maven.plugin.version>6.2.1</liferay.maven.plugin.version>
+		<liferay.portal.home>../bundles</liferay.portal.home>
+		<liferay.auto.deploy.dir>${liferay.portal.home}/deploy</liferay.auto.deploy.dir>
+		<liferay.app.server.root>${liferay.portal.home}/tomcat-7.0.42</liferay.app.server.root>
+		<liferay.app.server.deploy.dir>${liferay.app.server.root}/webapps</liferay.app.server.deploy.dir>
+		<liferay.app.server.lib.global.dir>${liferay.app.server.root}/lib/ext</liferay.app.server.lib.global.dir>
+		<liferay.app.server.portal.dir>${liferay.app.server.root}/webapps/ROOT</liferay.app.server.portal.dir>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
