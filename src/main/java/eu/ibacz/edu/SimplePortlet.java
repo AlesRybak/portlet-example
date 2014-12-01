@@ -10,7 +10,7 @@ public class SimplePortlet extends GenericPortlet {
 
     @Override
     protected void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
-        PortletRequestDispatcher prd = getPortletContext().getRequestDispatcher("/view.jsp");
+        PortletRequestDispatcher prd = getPortletContext().getRequestDispatcher("/WEB-INF/jsp/simple/view.jsp");
         prd.include(request, response);
     }
 }
