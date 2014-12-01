@@ -1,3 +1,5 @@
 <%@include file="../init.jspf" %>
 
-This is the <b>SimplePortet</b>.
+<fmt:message key="this-is-the">
+    <fmt:param value="SimplePortet" />
+</fmt:message>
