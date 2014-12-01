@@ -10,16 +10,27 @@ import java.util.List;
  */
 public class FiboPortlet extends GenericPortlet {
 
+    public static final long MAX_NUMBERS_COUNT = 20;
+
     public static final String ATTR_FIBO_NUMBERS = "fiboNumbers";
     public static final String ATTR_NUMBERS_COUNT = "numbersCount";
+    public static final String ATTR_ERROR_MESSAGE = "errorMessage";
+    public static final String ATTR_SUCCESS_MESSAGE = "successMessage";
 
     public static final String PREF_NUMBERS_COUNT = "numbersCount";
     public static final String DEFAULT_PREF_NUMBERS_COUNT = "10";
 
+    public static final String ACTION_SAVE_PREFS = "savePrefs";
+
+    public static final String PARAM_NUMBERS_COUNT = "count";
+
+    public static final String SESS_ERROR_MESSAGE = "errorMessage";
+    public static final String SESS_SUCCESS_MESSAGE = "successMessage";
+
+
     @Override
     protected void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
-        request.setAttribute(ATTR_FIBO_NUMBERS, getFiboNumbers());
-        request.setAttribute(ATTR_NUMBERS_COUNT, getNumbersCount(request));
+        populateDefaultAttributes(request);
 
         PortletRequestDispatcher prd = getPortletContext().getRequestDispatcher("/WEB-INF/jsp/fibo/view.jsp");
         prd.include(request, response);
@@ -27,10 +38,57 @@ public class FiboPortlet extends GenericPortlet {
 
     @Override
     protected void doEdit(RenderRequest request, RenderResponse response) throws PortletException, IOException {
-        request.setAttribute(ATTR_FIBO_NUMBERS, getFiboNumbers());
+        populateDefaultAttributes(request);
 
         PortletRequestDispatcher prd = getPortletContext().getRequestDispatcher("/WEB-INF/jsp/fibo/edit.jsp");
         prd.include(request, response);
+    }
+
+    private void populateDefaultAttributes(RenderRequest request) {
+        request.setAttribute(ATTR_FIBO_NUMBERS, getFiboNumbers());
+        request.setAttribute(ATTR_NUMBERS_COUNT, getNumbersCount(request));
+
+        PortletSession session = request.getPortletSession();
+        if (session.getAttribute(SESS_ERROR_MESSAGE) != null) {
+            request.setAttribute(ATTR_ERROR_MESSAGE, session.getAttribute(SESS_ERROR_MESSAGE));
+            session.removeAttribute(SESS_ERROR_MESSAGE);
+        }
+        if (session.getAttribute(SESS_SUCCESS_MESSAGE) != null) {
+            request.setAttribute(ATTR_SUCCESS_MESSAGE, session.getAttribute(SESS_SUCCESS_MESSAGE));
+            session.removeAttribute(SESS_SUCCESS_MESSAGE);
+        }
+    }
+
+    @ProcessAction(name = ACTION_SAVE_PREFS)
+    public void processSavePrefs(ActionRequest request, ActionResponse response) throws PortletException, IOException {
+        String countStr = request.getParameter(PARAM_NUMBERS_COUNT);
+        PortletSession session = request.getPortletSession();
+
+        if (countStr == null) {
+            session.setAttribute(SESS_ERROR_MESSAGE, "null-parameter");
+        } else {
+            long numbersCount = 0;
+            try {
+                numbersCount = Long.parseLong(countStr);
+            } catch (NumberFormatException nfe) {
+                session.setAttribute(SESS_ERROR_MESSAGE, "type-mismatch");
+            }
+
+            if (numbersCount < 0) {
+                numbersCount = 0;
+                session.setAttribute(SESS_ERROR_MESSAGE, "number-too-low");
+            }
+
+            if (numbersCount > MAX_NUMBERS_COUNT) {
+                numbersCount = MAX_NUMBERS_COUNT;
+                session.setAttribute(SESS_ERROR_MESSAGE, "number-too-high");
+            }
+
+            PortletPreferences prefs = request.getPreferences();
+            prefs.setValue(PREF_NUMBERS_COUNT, Long.toString(numbersCount));
+            prefs.store();
+            session.setAttribute(SESS_SUCCESS_MESSAGE, "preferences-saved");
+        }
     }
 
     private long getNumbersCount(RenderRequest request) {
