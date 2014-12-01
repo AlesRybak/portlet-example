@@ -14,4 +14,17 @@
 			<short-title>SimplePortlet</short-title>
 		</portlet-info>
 	</portlet>
+	<portlet>
+		<portlet-name>FiboPortlet</portlet-name>
+		<display-name>FiboPortlet</display-name>
+		<portlet-class>eu.ibacz.edu.FiboPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>FiboPortlet</title>
+			<short-title>FiboPortlet</short-title>
+		</portlet-info>
+	</portlet>
 </portlet-app>

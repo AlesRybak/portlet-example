@@ -4,5 +4,6 @@
 <display>
 	<category name="portlet-example">
 		<portlet id="SimplePortlet" />
+		<portlet id="FiboPortlet" />
 	</category>
 </display>
