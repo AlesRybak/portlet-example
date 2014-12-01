@@ -26,5 +26,11 @@
 			<title>FiboPortlet</title>
 			<short-title>FiboPortlet</short-title>
 		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>numbersCount</name>
+				<value>10</value>
+			</preference>
+		</portlet-preferences>
 	</portlet>
 </portlet-app>
