@@ -34,6 +34,7 @@
 				<value>10</value>
 			</preference>
 		</portlet-preferences>
+		<supported-public-render-parameter>selectedNumber</supported-public-render-parameter>
 	</portlet>
 	<portlet>
 		<portlet-name>SessionConsumerPortlet</portlet-name>
@@ -49,5 +50,23 @@
 			<short-title>SessionConsumerPortlet</short-title>
 		</portlet-info>
 	</portlet>
-
+	<portlet>
+		<portlet-name>PrpConsumerPortlet</portlet-name>
+		<display-name>PrpConsumerPortlet</display-name>
+		<portlet-class>eu.ibacz.edu.PrpConsumerPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<portlet-info>
+			<title>PrpConsumerPortlet</title>
+			<short-title>PrpConsumerPortlet</short-title>
+		</portlet-info>
+		<supported-public-render-parameter>selectedNumber</supported-public-render-parameter>
+	</portlet>
+	<public-render-parameter>
+		<identifier>selectedNumber</identifier>
+		<qname xmlns:x="http://edu.ibacz.eu/params">x:selectedNumber</qname>
+	</public-render-parameter>
 </portlet-app>
