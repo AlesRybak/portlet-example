@@ -34,6 +34,9 @@
 				<value>10</value>
 			</preference>
 		</portlet-preferences>
+		<supported-publishing-event>
+			<qname xmlns:x="http://edu.ibacz.eu/events">x:numberSelectedEvent</qname>
+		</supported-publishing-event>
 		<supported-public-render-parameter>selectedNumber</supported-public-render-parameter>
 	</portlet>
 	<portlet>
@@ -65,6 +68,27 @@
 		</portlet-info>
 		<supported-public-render-parameter>selectedNumber</supported-public-render-parameter>
 	</portlet>
+	<portlet>
+		<portlet-name>EventConsumerPortlet</portlet-name>
+		<display-name>EventConsumerPortlet</display-name>
+		<portlet-class>eu.ibacz.edu.EventConsumerPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<portlet-info>
+			<title>EventConsumerPortlet</title>
+			<short-title>EventConsumerPortlet</short-title>
+		</portlet-info>
+		<supported-processing-event>
+			<qname xmlns:x="http://edu.ibacz.eu/events">x:numberSelectedEvent</qname>
+		</supported-processing-event>
+	</portlet>
+	<event-definition>
+		<qname xmlns:x="http://edu.ibacz.eu/events">x:numberSelectedEvent</qname>
+		<value-type>java.lang.Integer</value-type>
+	</event-definition>
 	<public-render-parameter>
 		<identifier>selectedNumber</identifier>
 		<qname xmlns:x="http://edu.ibacz.eu/params">x:selectedNumber</qname>

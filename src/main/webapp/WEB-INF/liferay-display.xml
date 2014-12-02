@@ -7,5 +7,6 @@
 		<portlet id="FiboPortlet" />
 		<portlet id="SessionConsumerPortlet" />
 		<portlet id="PrpConsumerPortlet" />
+		<portlet id="EventConsumerPortlet" />
 	</category>
 </display>

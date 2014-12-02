@@ -1,6 +1,7 @@
 package eu.ibacz.edu;
 
 import javax.portlet.*;
+import javax.xml.namespace.QName;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class FiboPortlet extends GenericPortlet {
     public void spreadNumber(ActionRequest request, ActionResponse response) throws PortletException, IOException {
         Long selectedNumber = getNumberFromParameters(request);
         spreadNumberViaSession(request, selectedNumber);
+        spreadNumberViaEvent(response, selectedNumber);
     }
 
     @ProcessAction(name = ACTION_SAVE_PREFS)
@@ -116,6 +118,11 @@ public class FiboPortlet extends GenericPortlet {
     private void spreadNumberViaSession(ActionRequest request, Long number) {
         PortletSession session = request.getPortletSession();
         session.setAttribute(SharedConstants.SESS_SELECTED_NUMBER, number, PortletSession.APPLICATION_SCOPE);
+    }
+
+    private void spreadNumberViaEvent(ActionResponse response, Long number) {
+        QName name = new QName("http://edu.ibacz.eu/events", "numberSelectedEvent");
+        response.setEvent(name, number);
     }
 
     private long getNumberFromParameters(PortletRequest request) {
