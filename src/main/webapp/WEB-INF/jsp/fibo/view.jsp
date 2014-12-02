@@ -1,3 +1,4 @@
+<%@ page import="static eu.ibacz.edu.FiboPortlet.*" %>
 <%@include file="../init.jspf" %>
 
 <h3>
@@ -8,6 +9,14 @@
 
 <ul>
     <c:forEach begin="0" end="${numbersCount - 1}" var="number">
-        <li>${fiboNumbers.get(number)}</li>
+        <portlet:actionURL name="<%= ACTION_SPREAD_NUMBER %>" var="spreadUrl">
+            <portlet:param name="<%= PARAM_SELECTED_NUMBER %>" value="${fiboNumbers.get(number)}"/>
+        </portlet:actionURL>
+
+        <li>
+            <a href="${spreadUrl}">
+                ${fiboNumbers.get(number)}
+            </a>
+        </li>
     </c:forEach>
 </ul>

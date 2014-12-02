@@ -21,8 +21,10 @@ public class FiboPortlet extends GenericPortlet {
     public static final String DEFAULT_PREF_NUMBERS_COUNT = "10";
 
     public static final String ACTION_SAVE_PREFS = "savePrefs";
+    public static final String ACTION_SPREAD_NUMBER = "spreadNumber";
 
     public static final String PARAM_NUMBERS_COUNT = "count";
+    public static final String PARAM_SELECTED_NUMBER = "selectedNumber";
 
     public static final String SESS_ERROR_MESSAGE = "errorMessage";
     public static final String SESS_SUCCESS_MESSAGE = "successMessage";
@@ -44,19 +46,10 @@ public class FiboPortlet extends GenericPortlet {
         prd.include(request, response);
     }
 
-    private void populateDefaultAttributes(RenderRequest request) {
-        request.setAttribute(ATTR_FIBO_NUMBERS, getFiboNumbers());
-        request.setAttribute(ATTR_NUMBERS_COUNT, getNumbersCount(request));
-
-        PortletSession session = request.getPortletSession();
-        if (session.getAttribute(SESS_ERROR_MESSAGE) != null) {
-            request.setAttribute(ATTR_ERROR_MESSAGE, session.getAttribute(SESS_ERROR_MESSAGE));
-            session.removeAttribute(SESS_ERROR_MESSAGE);
-        }
-        if (session.getAttribute(SESS_SUCCESS_MESSAGE) != null) {
-            request.setAttribute(ATTR_SUCCESS_MESSAGE, session.getAttribute(SESS_SUCCESS_MESSAGE));
-            session.removeAttribute(SESS_SUCCESS_MESSAGE);
-        }
+    @ProcessAction(name = ACTION_SPREAD_NUMBER)
+    public void spreadNumber(ActionRequest request, ActionResponse response) throws PortletException, IOException {
+        Long selectedNumber = getNumberFromParameters(request);
+        spreadNumberViaSession(request, selectedNumber);
     }
 
     @ProcessAction(name = ACTION_SAVE_PREFS)
@@ -91,6 +84,21 @@ public class FiboPortlet extends GenericPortlet {
         }
     }
 
+    private void populateDefaultAttributes(RenderRequest request) {
+        request.setAttribute(ATTR_FIBO_NUMBERS, getFiboNumbers());
+        request.setAttribute(ATTR_NUMBERS_COUNT, getNumbersCount(request));
+
+        PortletSession session = request.getPortletSession();
+        if (session.getAttribute(SESS_ERROR_MESSAGE) != null) {
+            request.setAttribute(ATTR_ERROR_MESSAGE, session.getAttribute(SESS_ERROR_MESSAGE));
+            session.removeAttribute(SESS_ERROR_MESSAGE);
+        }
+        if (session.getAttribute(SESS_SUCCESS_MESSAGE) != null) {
+            request.setAttribute(ATTR_SUCCESS_MESSAGE, session.getAttribute(SESS_SUCCESS_MESSAGE));
+            session.removeAttribute(SESS_SUCCESS_MESSAGE);
+        }
+    }
+
     private long getNumbersCount(RenderRequest request) {
         PortletPreferences prefs = request.getPreferences();
         String numbersCountStr = prefs.getValue(PREF_NUMBERS_COUNT, DEFAULT_PREF_NUMBERS_COUNT);
@@ -103,6 +111,24 @@ public class FiboPortlet extends GenericPortlet {
         }
 
         return numbersCount;
+    }
+
+    private void spreadNumberViaSession(ActionRequest request, Long number) {
+        PortletSession session = request.getPortletSession();
+        session.setAttribute(SharedConstants.SESS_SELECTED_NUMBER, number, PortletSession.APPLICATION_SCOPE);
+    }
+
+    private long getNumberFromParameters(PortletRequest request) {
+        String numberStr = request.getParameter(PARAM_SELECTED_NUMBER);
+        if (numberStr != null) {
+            try {
+                return Long.parseLong(numberStr);
+            } catch (NumberFormatException nfe) {
+                return -1;
+            }
+        } else {
+            return -1;
+        }
     }
 
     private List<Long> getFiboNumbers() {

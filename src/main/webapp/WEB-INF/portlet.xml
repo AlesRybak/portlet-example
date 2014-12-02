@@ -35,4 +35,19 @@
 			</preference>
 		</portlet-preferences>
 	</portlet>
+	<portlet>
+		<portlet-name>SessionConsumerPortlet</portlet-name>
+		<display-name>SessionConsumerPortlet</display-name>
+		<portlet-class>eu.ibacz.edu.SessionConsumerPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<portlet-info>
+			<title>SessionConsumerPortlet</title>
+			<short-title>SessionConsumerPortlet</short-title>
+		</portlet-info>
+	</portlet>
+
 </portlet-app>
